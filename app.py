@@ -55,9 +55,37 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     try:
+        
+        # 取出文字的前二個字元
+        ai_msg = msg[:2].lower()
+        reply_msg = ''
+        # 取出文字的前二個字元是 「請問」
+        if ai_msg == '請問':
+            GPT_answer = GPT_response(msg[2:])
+            print(GPT_answer)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+        else:
+            # 不執行GPT
+            return
+            
+        #======原程式==========
+        # 取出文字的前六個字元，轉換成小寫
+        ai_msg = msg[:6].lower()
+        reply_msg = ''
+        # 取出文字的前六個字元是 「hi ai:」
+        if ai_msg == 'hi ai:':
+            GPT_answer = GPT_response(msg[6:])
+            print(GPT_answer)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+        else:
+            # 不執行GPT
+            return
+        #======原程式==========
+#======原程式==========
         GPT_answer = GPT_response(msg)
         print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+#======原程式==========
     except:
         line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'))
         
